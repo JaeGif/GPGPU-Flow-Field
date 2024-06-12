@@ -11,7 +11,8 @@ import { GPUComputationRenderer } from 'three/addons/misc/GPUComputationRenderer
  * Base
  */
 // Debug
-const gui = new GUI({ width: 340 });
+let gui;
+if (window.location.hash === '#debug') gui = new GUI({ width: 340 });
 const debugObject = {};
 
 // Canvas
@@ -220,31 +221,33 @@ scene.add(particles.points);
 /**
  * Tweaks
  */
-gui.addColor(debugObject, 'clearColor').onChange(() => {
-  renderer.setClearColor(debugObject.clearColor);
-});
-gui
-  .add(particles.material.uniforms.uSize, 'value')
-  .min(0)
-  .max(1)
-  .step(0.001)
-  .name('uSize');
-gui
-  .add(gpgpu.particlesVariable.material.uniforms.uFlowFieldInfluence, 'value')
-  .min(0)
-  .max(1)
-  .name('uFlowFieldInfluence');
-gui
-  .add(gpgpu.particlesVariable.material.uniforms.uFlowFieldStrength, 'value')
-  .min(0)
-  .max(10)
-  .name('uFlowFieldStrength');
-gui
-  .add(gpgpu.particlesVariable.material.uniforms.uFlowFieldFrequency, 'value')
-  .min(0)
-  .max(1)
-  .step(0.001)
-  .name('uFlowFieldFrequency');
+if (gui) {
+  gui.addColor(debugObject, 'clearColor').onChange(() => {
+    renderer.setClearColor(debugObject.clearColor);
+  });
+  gui
+    .add(particles.material.uniforms.uSize, 'value')
+    .min(0)
+    .max(1)
+    .step(0.001)
+    .name('uSize');
+  gui
+    .add(gpgpu.particlesVariable.material.uniforms.uFlowFieldInfluence, 'value')
+    .min(0)
+    .max(1)
+    .name('uFlowFieldInfluence');
+  gui
+    .add(gpgpu.particlesVariable.material.uniforms.uFlowFieldStrength, 'value')
+    .min(0)
+    .max(10)
+    .name('uFlowFieldStrength');
+  gui
+    .add(gpgpu.particlesVariable.material.uniforms.uFlowFieldFrequency, 'value')
+    .min(0)
+    .max(1)
+    .step(0.001)
+    .name('uFlowFieldFrequency');
+}
 /**
  * Animate
  */
